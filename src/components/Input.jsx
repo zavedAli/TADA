@@ -70,7 +70,7 @@ const Input = () => {
             <>
               <div
                 key={item.uid}
-                className="card flex min-h-[80px] w-[vw] items-start justify-between rounded-lg border-[1px] bg-[#764ba21c] px-3 py-2 text-[#3d3d3d] font-medium"
+                className="card flex sm:flex-row flex-col gap-10 min-h-[80px] w-[vw] items-start justify-between rounded-lg border-[1px] bg-[#764ba21c] px-3 py-2 text-[#3d3d3d] font-medium"
               >
                 <div className="con flex items-center gap-3">
                   <input
@@ -84,16 +84,18 @@ const Input = () => {
                     {item.task}
                   </h1>
                 </div>
-                <div className="button flex gap-5">
-                  <button className="flex items-center gap-2 hover:text-[#181818]">
-                    {" "}
-                    <MdOutlineEditCalendar /> edit
-                  </button>
-                  <button className="flex items-center gap-2 hover:text-[#a24b4b]">
-                    {" "}
-                    <MdDelete />
-                    delete
-                  </button>
+                <div className="buttons w-full flex justify-end">
+                  <div className="button flex gap-5 text-right">
+                    <button className="flex items-center gap-2 hover:text-[#181818]">
+                      {" "}
+                      <MdOutlineEditCalendar /> edit
+                    </button>
+                    <button className="flex items-center gap-2 hover:text-[#a24b4b]">
+                      {" "}
+                      <MdDelete />
+                      delete
+                    </button>
+                  </div>
                 </div>
               </div>
             </>
@@ -109,7 +111,7 @@ const Input = () => {
           item.complete ? (
             <div
               key={item.uid}
-              className="card flex min-h-[80px] w-[vw] items-start justify-between rounded-lg border-[1px] bg-[#764ba21c] px-3 py-2 text-[#3d3d3d] font-medium"
+              className="card flex sm:flex-row flex-col min-h-[80px] w-[vw] items-start justify-between rounded-lg border-[1px] bg-[#764ba21c] px-3 py-2 text-[#3d3d3d] font-medium"
             >
               <div className="con flex items-center gap-3">
                 <input
@@ -123,16 +125,18 @@ const Input = () => {
                   {item.task}
                 </h1>
               </div>
-              <div className="button flex gap-5">
-                <button className="flex items-center gap-2 hover:text-[#181818]">
-                  {" "}
-                  <MdOutlineEditCalendar /> edit
-                </button>
-                <button className="flex items-center gap-2 hover:text-[#a24b4b]">
-                  {" "}
-                  <MdDelete />
-                  delete
-                </button>
+              <div className="buttons w-full flex justify-end">
+                <div className="button flex gap-5 text-right">
+                  <button className="flex items-center gap-2 hover:text-[#181818]">
+                    {" "}
+                    <MdOutlineEditCalendar /> edit
+                  </button>
+                  <button className="flex items-center gap-2 hover:text-[#a24b4b]">
+                    {" "}
+                    <MdDelete />
+                    delete
+                  </button>
+                </div>
               </div>
             </div>
           ) : (
