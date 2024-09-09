@@ -60,7 +60,7 @@ const Input = () => {
       <div className="bg-slate-300 h-[1px] w-[50vw] m-auto"></div>
 
       {/* Display Todos */}
-      <div className="todos mt-4 w-[95vw] sm:w-[70vw] flex justify-center flex-col m-auto gap-3">
+      <div className="todos mt-4 w-[90vw] sm:w-[70vw] flex justify-center flex-col m-auto gap-3">
         <h1 className="text-left text-3xl text-[#3a3a3a] pt-6 pb-3 font-bold">
           <span>{uTask}</span> Task to do
         </h1>
