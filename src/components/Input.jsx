@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { MdOutlineEditCalendar } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 
 const Input = () => {
   const [todo, setTodo] = useState({ uid: "", task: "", complete: false });
@@ -11,8 +13,8 @@ const Input = () => {
     console.log("correct1");
 
     if (todo.task) {
+      setUtask(uTask + 1);
       const newTodo = { ...todo, uid: uuidv4() }; // Generate unique ID here
-      updateState(todos);
 
       setTodos([...todos, newTodo]); // Add the new todo to the list
       setTodo({ uid: "", task: "", complete: false });
@@ -24,15 +26,16 @@ const Input = () => {
     const targetItem = todos.find((item) => item.uid === id);
     targetItem.complete = !targetItem.complete;
     setTodos([...todos]);
+    if (targetItem.complete === true) {
+      setUtask(uTask - 1);
+      setFtask(fTask + 1);
+    } else {
+      setUtask(uTask + 1);
+      setFtask(fTask - 1);
+    }
+
     console.log(todos);
-    updateState(todos);
-  };
-  const updateState = (updatedTodos) => {
-    const finishedTasks = updatedTodos.filter((item) => item.complete).length;
-    const unfinishedTasks = updatedTodos.length - finishedTasks;
-    setFtask(finishedTasks);
-    setUtask(unfinishedTasks);
-    console.log(finishedTasks, unfinishedTasks);
+    console.log(fTask);
   };
 
   return (
@@ -81,8 +84,15 @@ const Input = () => {
                   </h1>
                 </div>
                 <div className="button flex gap-5">
-                  <button>edit</button>
-                  <button>delete</button>
+                  <button className="flex items-center gap-2 hover:text-[#181818]">
+                    {" "}
+                    <MdOutlineEditCalendar /> edit
+                  </button>
+                  <button className="flex items-center gap-2 hover:text-[#a24b4b]">
+                    {" "}
+                    <MdDelete />
+                    delete
+                  </button>
                 </div>
               </div>
             </>
@@ -90,9 +100,8 @@ const Input = () => {
             ""
           )
         )}
-        <h1 className="text-left text-xl text-[#3a3a3a] pt-6 pb-3">
-          Finished task
-          <span> {fTask}</span>
+        <h1 className="text-left text-sm text-[#3a3a3a] pt-6 pb-3">
+          <span>{fTask} </span>Finished task
         </h1>
         {todos.map((item) =>
           item.complete ? (
@@ -113,8 +122,15 @@ const Input = () => {
                 </h1>
               </div>
               <div className="button flex gap-5">
-                <button>edit</button>
-                <button>delete</button>
+                <button className="flex items-center gap-2 hover:text-[#181818]">
+                  {" "}
+                  <MdOutlineEditCalendar /> edit
+                </button>
+                <button className="flex items-center gap-2 hover:text-[#a24b4b]">
+                  {" "}
+                  <MdDelete />
+                  delete
+                </button>
               </div>
             </div>
           ) : (
