@@ -4,27 +4,35 @@ import { v4 as uuidv4 } from "uuid";
 const Input = () => {
   const [todo, setTodo] = useState({ uid: "", task: "", complete: false });
   const [todos, setTodos] = useState([]);
+  const [fTask, setFtask] = useState(0);
+  const [uTask, setUtask] = useState(0);
 
   const addTodo = () => {
     console.log("correct1");
 
     if (todo.task) {
       const newTodo = { ...todo, uid: uuidv4() }; // Generate unique ID here
+      updateState(todos);
+
       setTodos([...todos, newTodo]); // Add the new todo to the list
-      setTodo({ task: "", complete: false });
+      setTodo({ uid: "", task: "", complete: false });
       console.log("correct2");
     }
     console.log(todos);
   };
   const isComplete = (id) => {
-    setTodos(
-      todos.map((item) =>
-        item.uid === id ? { ...item, complete: !item.complete } : item
-      )
-    );
+    const targetItem = todos.find((item) => item.uid === id);
+    targetItem.complete = !targetItem.complete;
+    setTodos([...todos]);
+    console.log(todos);
+    updateState(todos);
   };
-  const deleteTodo = (id) => {
-    setTodos(todos.filter((item) => item.uid !== id));
+  const updateState = (updatedTodos) => {
+    const finishedTasks = updatedTodos.filter((item) => item.complete).length;
+    const unfinishedTasks = updatedTodos.length - finishedTasks;
+    setFtask(finishedTasks);
+    setUtask(unfinishedTasks);
+    console.log(finishedTasks, unfinishedTasks);
   };
 
   return (
@@ -50,11 +58,44 @@ const Input = () => {
       {/* Display Todos */}
       <div className="todos mt-4 w-[60vw] flex justify-center flex-col m-auto gap-3">
         <h1 className="text-left text-3xl text-[#3a3a3a] pt-6 pb-3 font-bold">
-          Task to do
+          <span>{uTask}</span> Task to do
         </h1>
 
-        {todos.map((item, index) => (
-          <>
+        {todos.map((item) =>
+          !item.complete ? (
+            <>
+              <div
+                key={item.uid}
+                className="card flex min-h-[80px] w-[vw] items-start justify-between rounded-lg border-[1px] bg-[#764ba21c] px-3 py-2 text-[#3d3d3d] font-medium"
+              >
+                <div className="con flex items-center gap-3">
+                  <input
+                    onChange={() => isComplete(item.uid)}
+                    checked={item.complete}
+                    id="checkbox"
+                    type="checkbox"
+                    className="form-checkbox w-3 h-3 text-indigo-600 "
+                  />
+                  <h1 className={item.complete ? "line-through" : ""}>
+                    {item.task}
+                  </h1>
+                </div>
+                <div className="button flex gap-5">
+                  <button>edit</button>
+                  <button>delete</button>
+                </div>
+              </div>
+            </>
+          ) : (
+            ""
+          )
+        )}
+        <h1 className="text-left text-xl text-[#3a3a3a] pt-6 pb-3">
+          Finished task
+          <span> {fTask}</span>
+        </h1>
+        {todos.map((item) =>
+          item.complete ? (
             <div
               key={item.uid}
               className="card flex min-h-[80px] w-[vw] items-start justify-between rounded-lg border-[1px] bg-[#764ba21c] px-3 py-2 text-[#3d3d3d] font-medium"
@@ -76,8 +117,10 @@ const Input = () => {
                 <button>delete</button>
               </div>
             </div>
-          </>
-        ))}
+          ) : (
+            ""
+          )
+        )}
       </div>
     </>
   );
