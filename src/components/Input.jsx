@@ -70,7 +70,7 @@ const Input = () => {
             <>
               <div
                 key={item.uid}
-                className="card flex sm:flex-row flex-col gap-10 min-h-[80px] w-[vw] items-start justify-between rounded-lg border-[1px] bg-[#764ba21c] px-3 py-2 text-[#3d3d3d] font-medium"
+                className="card flex sm:flex-row flex-col gap-10 min-h-[80px]  text-start items-start justify-between rounded-lg border-[1px] bg-[#764ba21c] px-3 py-2 text-[#3d3d3d] font-medium"
               >
                 <div className="con flex items-center gap-3">
                   <input
@@ -80,11 +80,12 @@ const Input = () => {
                     type="checkbox"
                     className="form-checkbox w-3 h-3 text-indigo-600 "
                   />
+
                   <h1 className={item.complete ? "line-through" : ""}>
                     {item.task}
                   </h1>
                 </div>
-                <div className="buttons w-full flex justify-end">
+                <div className="buttons sm:w-1/4 w-1/2 flex justify-center">
                   <div className="button flex gap-5 text-right">
                     <button className="flex items-center gap-2 hover:text-[#181818]">
                       {" "}
