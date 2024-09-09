@@ -60,7 +60,7 @@ const Input = () => {
       <div className="bg-slate-300 h-[1px] w-[50vw] m-auto"></div>
 
       {/* Display Todos */}
-      <div className="todos mt-4 w-[90vw] sm:w-[70vw] flex justify-center flex-col m-auto gap-3">
+      <div className="todos mt-4 w-[90vw] sm:w-[70vw] flex justify-center flex-col m-auto gap-3 mb-10">
         <h1 className="text-left text-3xl text-[#3a3a3a] pt-6 pb-3 font-bold">
           <span>{uTask}</span> Task to do
         </h1>
@@ -70,7 +70,7 @@ const Input = () => {
             <>
               <div
                 key={item.uid}
-                className="card flex sm:flex-row flex-col gap-10 min-h-[80px]  text-start items-start justify-between rounded-lg border-[1px] bg-[#764ba21c] px-3 py-2 text-[#3d3d3d] font-medium"
+                className="card flex sm:flex-row flex-col gap-10 min-h-[80px] text-start items-start justify-between rounded-lg border-[1px] bg-[#764ba21c] px-3 py-2 text-[#3d3d3d] font-medium"
               >
                 <div className="con flex items-center gap-3">
                   <input
@@ -112,7 +112,7 @@ const Input = () => {
           item.complete ? (
             <div
               key={item.uid}
-              className="card flex sm:flex-row flex-col min-h-[80px] w-[vw] items-start justify-between rounded-lg border-[1px] bg-[#764ba21c] px-3 py-2 text-[#3d3d3d] font-medium"
+              className="card flex sm:flex-row flex-col min-h-[80px] text-start items-start justify-between rounded-lg border-[1px] bg-[#764ba21c] px-3 py-2 text-[#3d3d3d] font-medium"
             >
               <div className="con flex items-center gap-3">
                 <input
@@ -126,7 +126,7 @@ const Input = () => {
                   {item.task}
                 </h1>
               </div>
-              <div className="buttons w-full flex justify-end">
+              <div className="buttons sm:w-1/4 w-1/2 flex justify-center">
                 <div className="button flex gap-5 text-right">
                   <button className="flex items-center gap-2 hover:text-[#181818]">
                     {" "}
