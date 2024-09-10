@@ -9,45 +9,63 @@ const Input = () => {
   const [todos, setTodos] = useState([]);
   const [fTask, setFtask] = useState(0);
   const [uTask, setUtask] = useState(0);
+  const [isEditing, setIsEditing] = useState(false); // New state for editing mode
+  const [editId, setEditId] = useState(null); // To track which item is being edited
 
   const addTodo = () => {
-    console.log("correct1");
+    if (!todo.task) return;
 
-    if (todo.task) {
+    if (isEditing) {
+      // Update the existing todo
+      const updatedTodos = todos.map((item) =>
+        item.uid === editId ? { ...item, task: todo.task } : item
+      );
+      setTodos(updatedTodos);
+      setIsEditing(false); // Exit editing mode
+      setEditId(null); // Reset editId
+    } else {
+      // Add a new todo
+      const newTodo = { ...todo, uid: uuidv4() };
+      setTodos([...todos, newTodo]);
       setUtask(uTask + 1);
-      const newTodo = { ...todo, uid: uuidv4() }; // Generate unique ID here
-
-      setTodos([...todos, newTodo]); // Add the new todo to the list
-      setTodo({ uid: "", task: "", complete: false });
-      console.log("correct2");
     }
-    console.log(todos);
+
+    // Reset the input field
+    setTodo({ uid: "", task: "", complete: false });
   };
+
   const isComplete = (id) => {
+    const updatedTodos = todos.map((item) =>
+      item.uid === id ? { ...item, complete: !item.complete } : item
+    );
+    setTodos(updatedTodos);
+
     const targetItem = todos.find((item) => item.uid === id);
-    targetItem.complete = !targetItem.complete;
-    setTodos([...todos]);
-    if (targetItem.complete === true) {
+    if (targetItem.complete === false) {
       setUtask(uTask - 1);
       setFtask(fTask + 1);
     } else {
       setUtask(uTask + 1);
       setFtask(fTask - 1);
     }
-
-    console.log(todos);
-    console.log(fTask);
   };
+
   const deleteItem = (id, status) => {
+    const updatedTodos = todos.filter((item) => item.uid !== id);
+    setTodos(updatedTodos);
+
     if (status) {
       setFtask(fTask - 1);
     } else {
       setUtask(uTask - 1);
     }
-    const newTodos1 = todos.filter((item) => item.uid !== id);
-    setTodos(newTodos1);
+  };
 
-    console.log(todos);
+  const handleEdit = (id) => {
+    const todoToEdit = todos.find((item) => item.uid === id);
+    setTodo({ ...todoToEdit });
+    setIsEditing(true); // Enable editing mode
+    setEditId(id); // Set the id of the item being edited
   };
 
   return (
@@ -65,7 +83,7 @@ const Input = () => {
           onClick={addTodo}
           className="bg-[#764ba2] text-white rounded-lg px-3 ms-6"
         >
-          Add
+          {isEditing ? "Update" : "Add"} {/* Change button label */}
         </button>
       </div>
       <div className="bg-slate-300 h-[1px] w-[50vw] m-auto"></div>
@@ -78,50 +96,51 @@ const Input = () => {
 
         {todos.map((item) =>
           !item.complete ? (
-            <>
-              <div
-                key={item.uid}
-                className="card flex sm:flex-row flex-col gap-10 min-h-[80px] text-start items-start justify-between rounded-lg border-[1px] bg-[#764ba21c] px-3 py-2 text-[#3d3d3d] font-medium"
-              >
-                <div className="con flex items-center gap-3">
-                  <input
-                    onChange={() => isComplete(item.uid)}
-                    checked={item.complete}
-                    id="checkbox"
-                    type="checkbox"
-                    className="form-checkbox w-3 h-3 text-indigo-600 "
-                  />
+            <div
+              key={item.uid}
+              className="card flex sm:flex-row flex-col gap-10 min-h-[80px] text-start items-start justify-between rounded-lg border-[1px] bg-[#764ba21c] px-3 py-2 text-[#3d3d3d] font-medium"
+            >
+              <div className="con flex items-center gap-3">
+                <input
+                  onChange={() => isComplete(item.uid)}
+                  checked={item.complete}
+                  id="checkbox"
+                  type="checkbox"
+                  className="form-checkbox w-3 h-3 text-indigo-600 "
+                />
 
-                  <h1 className={item.complete ? "line-through" : ""}>
-                    {item.task}
-                  </h1>
-                </div>
-                <div className="buttons sm:w-1/4 w-1/2 flex justify-center">
-                  <div className="button flex gap-5 text-right">
-                    <button className="flex items-center gap-2 hover:text-[#181818]">
-                      {" "}
-                      <MdOutlineEditCalendar /> edit
-                    </button>
-                    <button
-                      className="flex items-center gap-2 hover:text-[#a24b4b]"
-                      onClick={() => deleteItem(item.uid, item.complete)}
-                    >
-                      {" "}
-                      <MdDelete />
-                      delete
-                    </button>
-                  </div>
+                <h1 className={item.complete ? "line-through" : ""}>
+                  {item.task}
+                </h1>
+              </div>
+              <div className="buttons sm:w-1/4 w-1/2 flex justify-center">
+                <div className="button flex gap-5 text-right">
+                  <button
+                    className="flex items-center gap-2 hover:text-[#181818]"
+                    onClick={() => handleEdit(item.uid)} // Edit button
+                  >
+                    <MdOutlineEditCalendar /> edit
+                  </button>
+                  <button
+                    className="flex items-center gap-2 hover:text-[#a24b4b]"
+                    onClick={() => deleteItem(item.uid, item.complete)}
+                  >
+                    <MdDelete />
+                    delete
+                  </button>
                 </div>
               </div>
-            </>
+            </div>
           ) : (
             ""
           )
         )}
+
         <h1 className="text-left text-sm text-[#3a3a3a] pt-6 pb-3 flex items-center gap-4">
           <span>{fTask} </span>Finished task{" "}
           {fTask >= 1 ? <LuPartyPopper /> : ""}
         </h1>
+
         {todos.map((item) =>
           item.complete ? (
             <div
@@ -142,15 +161,16 @@ const Input = () => {
               </div>
               <div className="buttons sm:w-1/4 w-1/2 flex justify-center">
                 <div className="button flex gap-5 text-right">
-                  <button className="flex items-center gap-2 hover:text-[rgb(24,24,24)]">
-                    {" "}
+                  <button
+                    className="flex items-center gap-2 hover:text-[rgb(24,24,24)]"
+                    onClick={() => handleEdit(item.uid)}
+                  >
                     <MdOutlineEditCalendar /> edit
                   </button>
                   <button
                     className="flex items-center gap-2 hover:text-[#a24b4b]"
                     onClick={() => deleteItem(item.uid, item.complete)}
                   >
-                    {" "}
                     <MdDelete />
                     delete
                   </button>
