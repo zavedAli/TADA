@@ -38,6 +38,17 @@ const Input = () => {
     console.log(todos);
     console.log(fTask);
   };
+  const deleteItem = (id, status) => {
+    if (status) {
+      setFtask(fTask - 1);
+    } else {
+      setUtask(uTask - 1);
+    }
+    const newTodos1 = todos.filter((item) => item.uid !== id);
+    setTodos(newTodos1);
+
+    console.log(todos);
+  };
 
   return (
     <>
@@ -60,7 +71,7 @@ const Input = () => {
       <div className="bg-slate-300 h-[1px] w-[50vw] m-auto"></div>
 
       {/* Display Todos */}
-      <div className="todos mt-4 w-[90vw] sm:w-[70vw] flex justify-center flex-col m-auto gap-3 mb-10">
+      <div className="todos mt-4 w-[90vw] sm:w-[60vw] flex justify-center flex-col m-auto gap-3 mb-10">
         <h1 className="text-left text-3xl text-[#3a3a3a] pt-6 pb-3 font-bold">
           <span>{uTask}</span> Task to do
         </h1>
@@ -91,7 +102,10 @@ const Input = () => {
                       {" "}
                       <MdOutlineEditCalendar /> edit
                     </button>
-                    <button className="flex items-center gap-2 hover:text-[#a24b4b]">
+                    <button
+                      className="flex items-center gap-2 hover:text-[#a24b4b]"
+                      onClick={() => deleteItem(item.uid, item.complete)}
+                    >
                       {" "}
                       <MdDelete />
                       delete
@@ -128,11 +142,14 @@ const Input = () => {
               </div>
               <div className="buttons sm:w-1/4 w-1/2 flex justify-center">
                 <div className="button flex gap-5 text-right">
-                  <button className="flex items-center gap-2 hover:text-[#181818]">
+                  <button className="flex items-center gap-2 hover:text-[rgb(24,24,24)]">
                     {" "}
                     <MdOutlineEditCalendar /> edit
                   </button>
-                  <button className="flex items-center gap-2 hover:text-[#a24b4b]">
+                  <button
+                    className="flex items-center gap-2 hover:text-[#a24b4b]"
+                    onClick={() => deleteItem(item.uid, item.complete)}
+                  >
                     {" "}
                     <MdDelete />
                     delete
